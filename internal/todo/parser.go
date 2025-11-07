@@ -8,6 +8,7 @@ import (
 type Todo struct {
 	description string
 	completed   bool
+	priority    byte
 	completedAt time.Time
 	createdAt   time.Time
 }
@@ -24,6 +25,16 @@ func Parse(line string) (*Todo, error) {
 	if line[pos] == 'x' {
 		todo.completed = true
 		pos += 2
+	} else if line[pos] == '(' {
+		if pos+3 < len(line) {
+			if line[pos+2] == ')' {
+				candidate := line[pos+1]
+				if candidate >= 'A' && candidate <= 'Z' {
+					todo.priority = candidate
+					pos += 4
+				}
+			}
+		}
 	}
 
 	if pos >= len(line) {
