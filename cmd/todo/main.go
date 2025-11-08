@@ -1,7 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
+
+	"github.com/skaragianis/todo/internal/commands"
+)
 
 func main() {
-	fmt.Println("Hello world")
+	if err := commands.Execute(); err != nil {
+		fmt.Fprint(os.Stderr, err.Error())
+		os.Exit(1)
+	}
 }
