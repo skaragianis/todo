@@ -21,6 +21,7 @@ func TestParse(t *testing.T) {
 		todo      Todo
 		expectErr bool
 	}{
+		{"", Todo{}, false},
 		{"a simple todo", Todo{"a simple todo", false, 0, time.Time{}, time.Time{}}, false},
 		{"A simple todo", Todo{"A simple todo", false, 0, time.Time{}, time.Time{}}, false},
 		{"x A simple todo", Todo{"A simple todo", true, 0, time.Time{}, time.Time{}}, false},
