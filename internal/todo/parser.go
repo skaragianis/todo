@@ -34,8 +34,10 @@ func Parse(line string) (*Todo, error) {
 
 	switch line[pos] {
 	case 'x':
-		todo.completed = true
-		line = line[2:]
+		if pos+1 < len(line) {
+			todo.completed = true
+			line = line[2:]
+		}
 	case '(':
 		if pos+3 < len(line) {
 			if line[pos+2] == ')' {
@@ -52,7 +54,7 @@ func Parse(line string) (*Todo, error) {
 		return nil, errors.New("you marked it complete, but what?")
 	}
 
-	if line[pos] >= '0' && line[pos] <= '9' {
+	if line[pos] >= '0' && line[pos] <= '9' && len(line) > 10 {
 		date, err := time.Parse(DateFormat, line[pos:pos+10])
 		if err != nil {
 			return nil, errors.New("invalid date")
@@ -71,7 +73,7 @@ func Parse(line string) (*Todo, error) {
 		return nil, errors.New("you specified a date, but for what?")
 	}
 
-	if line[pos] >= '0' && line[pos] <= '9' {
+	if line[pos] >= '0' && line[pos] <= '9' && len(line) > 10 {
 		date, err := time.Parse(DateFormat, line[pos:pos+10])
 		if err != nil {
 			return nil, errors.New("invalid date")
